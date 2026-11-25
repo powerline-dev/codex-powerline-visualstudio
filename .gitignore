@@ -8,3 +8,6 @@ obj/
 *.suo
 *.vsix
 !releases/*/*.vsix
+
+# macOS Finder metadata
+.DS_Store
