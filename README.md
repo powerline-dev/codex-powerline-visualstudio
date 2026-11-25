@@ -100,7 +100,7 @@ your saved layouts, and installed fonts. Other Powerline hosts need the CLI.
 - 🌿 **Stay oriented.** Start in your active project and use the CLI's Git widgets.
 - 🔤 **Keep the Powerline look.** Bundled font symbols cover the Powerline separators.
 - 🧠 **Keep your session.** Hide or auto-hide the tool window without restarting the CLI.
-- 🔄 **Start fresh.** Use **Restart Terminal** to start a new CLI process in the active project.
+- 🔄 **Start fresh.** Use the green **Restart Terminal** arrow in the tool window to start a new CLI process in the active project.
 - 🌓 **Match your editor.** The terminal background and foreground follow Visual Studio's theme.
 
 The extension hosts `codex-powerline run`. The CLI owns the settings, widgets,

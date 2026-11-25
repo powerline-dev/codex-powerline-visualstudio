@@ -32,7 +32,30 @@ namespace CodexPowerline.VisualStudio
         {
             var panel = new DockPanel();
             var header = new StackPanel { Orientation = Orientation.Horizontal };
-            var restart = new Button { Content = "Restart Terminal", Margin = new Thickness(4), Padding = new Thickness(8, 2, 8, 2) };
+            var restart = new Button
+            {
+                Content = new System.Windows.Shapes.Path
+                {
+                    // A circular restart arrow, drawn at toolbar-icon size.
+                    Data = Geometry.Parse("M 13 7 A 5 5 0 1 0 13 11 M 13 3 L 13 7 L 9 7"),
+                    Stroke = new SolidColorBrush(Color.FromRgb(0x73, 0xC9, 0x91)),
+                    StrokeThickness = 1.5,
+                    StrokeStartLineCap = PenLineCap.Round,
+                    StrokeEndLineCap = PenLineCap.Round,
+                    StrokeLineJoin = PenLineJoin.Round,
+                    Width = 16,
+                    Height = 16,
+                    IsHitTestVisible = false
+                },
+                ToolTip = "Restart Terminal",
+                Width = 24,
+                Height = 24,
+                Margin = new Thickness(4),
+                Padding = new Thickness(4),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            restart.SetResourceReference(StyleProperty, ToolBar.ButtonStyleKey);
+            System.Windows.Automation.AutomationProperties.SetName(restart, "Restart Terminal");
             restart.Click += Restart;
             header.Children.Add(restart);
             header.Children.Add(status);

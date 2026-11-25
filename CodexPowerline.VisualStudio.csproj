@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>CodexPowerline.VisualStudio</AssemblyName>
     <RootNamespace>CodexPowerline.VisualStudio</RootNamespace>
-    <Version>0.1.2</Version>
+    <Version>0.1.3</Version>
     <PlatformTarget>x64</PlatformTarget>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
