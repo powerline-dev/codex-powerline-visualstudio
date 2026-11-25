@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace CodexPowerline.VisualStudio
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [InstalledProductRegistration("Codex Powerline", "Codex Powerline sidebar terminal", "0.1.0")]
+    [InstalledProductRegistration("Codex Powerline", "Codex Powerline sidebar terminal", "0.1.1")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(PowerlineToolWindow), Style = VsDockStyle.Tabbed,
         Window = ToolWindowGuids80.SolutionExplorer, Orientation = ToolWindowOrientation.Right, DockedWidth = 500)]

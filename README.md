@@ -22,7 +22,7 @@ Give a ⭐ if this project helped you!
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/powerline-dev/codex-powerline-visualstudio)](https://github.com/powerline-dev/codex-powerline-visualstudio/pulls)
 [![GitHub contributors](https://img.shields.io/github/contributors/powerline-dev/codex-powerline-visualstudio)](https://github.com/powerline-dev/codex-powerline-visualstudio/graphs/contributors)
 
-[📦 Download the VSIX](releases/0.1.0/) · [⚡ Powerline CLI](https://github.com/powerline-dev/codex-powerline-cli) · [🐛 Report a bug](https://github.com/powerline-dev/codex-powerline-visualstudio/issues)
+[📦 Download the VSIX](releases/0.1.1/) · [⚡ Powerline CLI](https://github.com/powerline-dev/codex-powerline-cli) · [🐛 Report a bug](https://github.com/powerline-dev/codex-powerline-visualstudio/issues)
 
 </div>
 
@@ -62,11 +62,14 @@ after you install or update Node.js or change PATH.
 
 ### 2. Install the extension
 
-Download [Codex Powerline 0.1.0 for Visual Studio](https://github.com/powerline-dev/codex-powerline-visualstudio/raw/refs/heads/main/releases/0.1.0/codex-powerline-visualstudio-0.1.0.vsix).
+Download [Codex Powerline 0.1.1 for Visual Studio](https://github.com/powerline-dev/codex-powerline-visualstudio/raw/refs/heads/main/releases/0.1.1/codex-powerline-visualstudio-0.1.1.vsix).
 The link becomes available after the release folder is pushed to GitHub.
 
 Close Visual Studio, open the `.vsix` file, and choose the Visual Studio instance
 where you want to install it. The extension is not yet published to Marketplace.
+
+If you installed 0.1.0, install 0.1.1 over it. Version 0.1.0 has a menu placement
+bug that hides the command under **View > Other Windows**.
 
 The terminal also needs the [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
 If the tool window reports that the runtime is missing, install the Evergreen
@@ -77,6 +80,8 @@ Runtime and restart Visual Studio.
 Open **View > Other Windows > Codex Powerline**. Dock the tool window beside
 your editor, float it on another monitor, or pin it beside Solution Explorer.
 Widen it to give your Powerline layout more columns.
+
+You can also run `View.CodexPowerline` in Visual Studio's Command Window.
 
 The terminal starts in the active document's project folder, then falls back
 to the solution folder, active local file's folder, or your home folder.
@@ -125,6 +130,7 @@ npm install --global @powerline-dev/codex-powerline-cli@latest
 | A layout is too wide | Widen the tool window or choose a compact CLI layout. |
 | Changes do not appear | Save the layout, then select **Restart Terminal**. |
 | The VSIX does not install | Use x64 Visual Studio 2022 17.14+ or Visual Studio 2026, not VS Code or ARM64 Visual Studio. |
+| Codex Powerline is missing from Other Windows | Upgrade from 0.1.0 to 0.1.1, then fully restart Visual Studio. Check that the extension is enabled in **Extensions > Manage Extensions**. |
 
 ## Development
 
@@ -144,6 +150,16 @@ npm test
 
 Open `CodexPowerline.VisualStudio.csproj` in Visual Studio for C# changes.
 The build script finds MSBuild with `vswhere` and builds a Release VSIX.
+
+The build also checks command-table parent types and the embedded menu resource.
+To check the real menu and tool-window startup in an isolated IDE profile, run:
+
+```powershell
+./tests/Test-VisualStudioMenu.ps1 -VisualStudioPath '<Visual Studio installation path>' -InstanceId '<vswhere instance ID>'
+```
+
+This uses the `PowerlineMenuTest` experimental profile and a mock CLI. It does
+not change your normal Visual Studio profile or start your real Codex session.
 
 | Path | Purpose |
 | --- | --- |

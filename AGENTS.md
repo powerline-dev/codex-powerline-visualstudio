@@ -18,11 +18,15 @@ Run the installed `codex-powerline run` command in a real PTY.
 On Windows x64, run `npm ci` and `./scripts/build.ps1`. The script checks
 TypeScript, builds the frontend/helper, runs native integration tests, builds
 the VSIX with Visual Studio MSBuild, and checks the .NET transport.
+It also checks menu parent types and the embedded command-table resource.
 Use `./scripts/build.ps1 -Release` to copy the VSIX and checksum to the versioned
 release folder. Never publish or install into the user's normal IDE profile
 without authorization.
 
 For UI changes, check an experimental instance of Visual Studio 2022 and 2026.
+Use `tests/Test-VisualStudioMenu.ps1` with a Visual Studio installation path and
+instance ID to check actual menu placement and startup with a mock CLI. This
+uses a dedicated `PowerlineMenuTest` root suffix, never the normal IDE profile.
 Check keyboard input, paste, resize, hide/show, restart, and IDE shutdown.
 Report UI checks that were not run. Preserve supplied branding and `.github`
 metadata. Keep the npm, project, and VSIX manifest versions in sync.

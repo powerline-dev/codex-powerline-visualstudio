@@ -1,5 +1,7 @@
 # Codex Powerline for Visual Studio 0.1.0
 
+This version has a menu placement bug. Use [0.1.1](../0.1.1/) instead.
+
 [Download the Visual Studio VSIX](codex-powerline-visualstudio-0.1.0.vsix).
 On GitHub, open the file and select **Download raw file**.
 

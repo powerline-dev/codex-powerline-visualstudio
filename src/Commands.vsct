@@ -3,22 +3,19 @@
   <Extern href="stdidcmd.h" />
   <Extern href="vsshlids.h" />
   <Commands package="guidPowerlinePackage">
-    <Groups>
-      <Group guid="guidPowerlineCommands" id="PowerlineGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
-      </Group>
-    </Groups>
     <Buttons>
       <Button guid="guidPowerlineCommands" id="OpenTerminal" priority="0x0100" type="Button">
-        <Parent guid="guidPowerlineCommands" id="PowerlineGroup" />
-        <Strings><ButtonText>Codex Powerline</ButtonText></Strings>
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
+        <Strings>
+          <ButtonText>Codex Powerline</ButtonText>
+          <CommandName>View.CodexPowerline</CommandName>
+        </Strings>
       </Button>
     </Buttons>
   </Commands>
   <Symbols>
     <GuidSymbol name="guidPowerlinePackage" value="{0758e57c-d87d-4e9c-9acf-073bfc06d943}" />
     <GuidSymbol name="guidPowerlineCommands" value="{40fbb5cd-94aa-4539-bf64-9f42f385996a}">
-      <IDSymbol name="PowerlineGroup" value="0x1020" />
       <IDSymbol name="OpenTerminal" value="0x0100" />
     </GuidSymbol>
   </Symbols>
