@@ -29,7 +29,7 @@
     <Compile Remove="tests\**" />
     <VSCTCompile Include="src\Commands.vsct"><ResourceName>Menus.ctmenu</ResourceName></VSCTCompile>
     <None Include="source.extension.vsixmanifest"><SubType>Designer</SubType></None>
-    <Content Include="web\dist\**\*;runtime\**\*;assets\icon.png;assets\header.png;assets\fonts\*;LICENSE;NOTICE;README.md">
+    <Content Include="web\dist\**\*;runtime\**\*;assets\icon.png;assets\header.png;assets\preview.png;assets\platforms\*.png;assets\platforms\*.txt;assets\platforms\SOURCES.md;docs\development.md;assets\fonts\*;LICENSE;NOTICE;README.md">
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

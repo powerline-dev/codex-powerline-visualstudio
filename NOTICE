@@ -12,3 +12,6 @@ See the Meslo and Nerd Fonts license files in assets/fonts.
 
 Microsoft WebView2 and Visual Studio SDK dependencies retain their upstream
 licenses. See their NuGet package metadata for terms.
+
+README platform icons from Devicon v2.17.0 use the MIT License.
+See assets/platforms/SOURCES.md and assets/platforms/DEVICON-LICENSE.txt.
