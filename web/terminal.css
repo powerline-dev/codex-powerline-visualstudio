@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "Codex Powerline Symbols";
+    src: url("../assets/fonts/powerline-symbols.woff2") format("woff2");
+    font-weight: 100 900;
+    unicode-range: U+E0A0-E0D7;
+}
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--terminal-background, #1e1e1e); }
+#terminal { position: absolute; inset: 0; box-sizing: border-box; padding: 4px; }

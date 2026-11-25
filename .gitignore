@@ -1,0 +1,10 @@
+node_modules/
+web/dist/
+runtime/
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.vsix
+!releases/*/*.vsix
