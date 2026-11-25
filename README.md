@@ -22,7 +22,7 @@ Give a ⭐ if this project helped you!
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/powerline-dev/codex-powerline-visualstudio)](https://github.com/powerline-dev/codex-powerline-visualstudio/pulls)
 [![GitHub contributors](https://img.shields.io/github/contributors/powerline-dev/codex-powerline-visualstudio)](https://github.com/powerline-dev/codex-powerline-visualstudio/graphs/contributors)
 
-[📦 Download the VSIX](releases/0.1.1/) · [⚡ Powerline CLI](https://github.com/powerline-dev/codex-powerline-cli) · [🐛 Report a bug](https://github.com/powerline-dev/codex-powerline-visualstudio/issues)
+[📦 Download the VSIX](releases/0.1.2/) · [⚡ Powerline CLI](https://github.com/powerline-dev/codex-powerline-cli) · [🐛 Report a bug](https://github.com/powerline-dev/codex-powerline-visualstudio/issues)
 
 </div>
 
@@ -62,13 +62,13 @@ after you install or update Node.js or change PATH.
 
 ### 2. Install the extension
 
-Download [Codex Powerline 0.1.1 for Visual Studio](https://github.com/powerline-dev/codex-powerline-visualstudio/raw/refs/heads/main/releases/0.1.1/codex-powerline-visualstudio-0.1.1.vsix).
+Download [Codex Powerline 0.1.2 for Visual Studio](https://github.com/powerline-dev/codex-powerline-visualstudio/raw/refs/heads/main/releases/0.1.2/codex-powerline-visualstudio-0.1.2.vsix).
 The link becomes available after the release folder is pushed to GitHub.
 
 Close Visual Studio, open the `.vsix` file, and choose the Visual Studio instance
 where you want to install it. The extension is not yet published to Marketplace.
 
-If you installed 0.1.0, install 0.1.1 over it. Version 0.1.0 has a menu placement
+If you installed an earlier version, install 0.1.2 over it. Version 0.1.0 has a menu placement
 bug that hides the command under **View > Other Windows**.
 
 The terminal also needs the [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
@@ -130,7 +130,7 @@ npm install --global @powerline-dev/codex-powerline-cli@latest
 | A layout is too wide | Widen the tool window or choose a compact CLI layout. |
 | Changes do not appear | Save the layout, then select **Restart Terminal**. |
 | The VSIX does not install | Use x64 Visual Studio 2022 17.14+ or Visual Studio 2026, not VS Code or ARM64 Visual Studio. |
-| Codex Powerline is missing from Other Windows | Upgrade from 0.1.0 to 0.1.1, then fully restart Visual Studio. Check that the extension is enabled in **Extensions > Manage Extensions**. |
+| Codex Powerline is missing from Other Windows | Upgrade to 0.1.2, then fully restart Visual Studio. Check that the extension is enabled in **Extensions > Manage Extensions**. |
 
 ## Development
 

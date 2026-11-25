@@ -82,6 +82,27 @@ public static class PowerlineMenuRot {
     $entry = @($menu.Controls | Where-Object { ($_.Caption -replace '&', '') -eq 'Codex Powerline' })
     if (!$entry.Count) { throw 'Codex Powerline is not present in the Other Windows menu.' }
     Write-Output 'PASS actual Visual Studio Other Windows menu contains Codex Powerline.'
+    if (!('PowerlineMenuIcon' -as [type])) {
+        $nuget = Join-Path $env:USERPROFILE '.nuget/packages'
+        $iconReferences = @(
+            (Join-Path $nuget 'microsoft.visualstudio.interop/17.14.40260/lib/net472/Microsoft.VisualStudio.Interop.dll'),
+            (Join-Path $nuget 'stdole/17.14.40260/lib/net472/stdole.dll'),
+            'Accessibility.dll'
+        )
+        foreach ($reference in $iconReferences) {
+            if (Test-Path -LiteralPath $reference) { [Reflection.Assembly]::LoadFrom($reference) | Out-Null }
+        }
+        Add-Type -ReferencedAssemblies $iconReferences -TypeDefinition @'
+public static class PowerlineMenuIcon {
+    public static bool UsesIconAndText(object control) {
+        var button = (Microsoft.VisualStudio.CommandBars._CommandBarButton)control;
+        return button.Style == Microsoft.VisualStudio.CommandBars.MsoButtonStyle.msoButtonIconAndCaption;
+    }
+}
+'@
+    }
+    if (![PowerlineMenuIcon]::UsesIconAndText($entry[0])) { throw 'The menu command is not configured to show its icon and text.' }
+    Write-Output 'PASS actual Visual Studio menu command uses the icon-and-text style.'
     $dte.ExecuteCommand($command.Name)
     $deadline = [DateTime]::UtcNow.AddSeconds(30)
     while (!(Test-Path -LiteralPath $marker) -and [DateTime]::UtcNow -lt $deadline) { Start-Sleep -Milliseconds 500 }

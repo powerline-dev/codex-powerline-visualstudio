@@ -6,14 +6,22 @@
     <Buttons>
       <Button guid="guidPowerlineCommands" id="OpenTerminal" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
+        <Icon guid="guidPowerlineImages" id="PowerlineMenuIcon" />
+        <CommandFlag>IconAndText</CommandFlag>
         <Strings>
           <ButtonText>Codex Powerline</ButtonText>
           <CommandName>View.CodexPowerline</CommandName>
         </Strings>
       </Button>
     </Buttons>
+    <Bitmaps>
+      <Bitmap guid="guidPowerlineImages" href="../assets/menu_icon.png" usedList="PowerlineMenuIcon" />
+    </Bitmaps>
   </Commands>
   <Symbols>
+    <GuidSymbol name="guidPowerlineImages" value="{57a31649-0f79-48d8-a608-d2408fdf176c}">
+      <IDSymbol name="PowerlineMenuIcon" value="1" />
+    </GuidSymbol>
     <GuidSymbol name="guidPowerlinePackage" value="{0758e57c-d87d-4e9c-9acf-073bfc06d943}" />
     <GuidSymbol name="guidPowerlineCommands" value="{40fbb5cd-94aa-4539-bf64-9f42f385996a}">
       <IDSymbol name="OpenTerminal" value="0x0100" />
