@@ -54,7 +54,7 @@ use the [CLI development setup](https://github.com/powerline-dev/codex-powerline
 Make sure `node`, `codex`, and `codex-powerline` are on PATH. Restart Visual Studio
 after changes to Node.js or PATH.
 
-1. [Download the Visual Studio VSIX](https://github.com/powerline-dev/codex-powerline-visualstudio/raw/refs/heads/main/releases/0.1.2/codex-powerline-visualstudio-0.1.2.vsix).
+1. [Download the Visual Studio VSIX](releases/0.1.3/codex-powerline-visualstudio-0.1.3.vsix).
 2. Close Visual Studio, open the `.vsix` file, and select your Visual Studio instance.
 3. Start Visual Studio and open **View > Other Windows > Codex Powerline**.
 

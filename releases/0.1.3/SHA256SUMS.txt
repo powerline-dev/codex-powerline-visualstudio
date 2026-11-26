@@ -1,0 +1,1 @@
+05437e33b734d87fce167e68f528490d0efcc1563be95f609c73600b7fb1569b  codex-powerline-visualstudio-0.1.3.vsix
