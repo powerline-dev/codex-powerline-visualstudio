@@ -58,6 +58,27 @@ Before publication, install into an experimental Visual Studio instance and
 check the menu, docking, keyboard input, clipboard, resizing, hide/show, restart,
 solution selection, theme changes, and IDE shutdown on each supported version.
 
+## Publish to Visual Studio Marketplace
+
+In GitHub, create an environment named `marketplace-release` and restrict its
+deployment branches to `main`. In the [Powerline Dev publisher](https://marketplace.visualstudio.com/manage/publishers/powerline-dev),
+open **Trusted Publishing** and create a policy with these values.
+
+| Field | Value |
+| --- | --- |
+| Repository owner | `powerline-dev` |
+| Repository | `codex-powerline-visualstudio` |
+| Workflow | `publish-marketplace.yml` |
+| Environment | `marketplace-release` |
+
+In GitHub Actions, run **Publish Visual Studio extension** on `main`.
+Leave `publish` unchecked to build and download the Windows x64 package from the
+run. Check `publish` to send the build to the Marketplace using Trusted Publishing.
+Bump the version in the project, VSIX manifest, and npm metadata before publishing
+an update.
+
+See [Microsoft's Trusted Publishing setup](https://developer.microsoft.com/blog/trusted-publishing-visual-studio-marketplace/).
+
 ## Contribution checks
 
 Contributions are welcome! Open an issue to report a bug or discuss a larger

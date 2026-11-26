@@ -19,7 +19,7 @@ Give a ⭐ if this project helped you!
 [![GitHub forks](https://img.shields.io/github/forks/powerline-dev/codex-powerline-visualstudio?style=social)](https://github.com/powerline-dev/codex-powerline-visualstudio/forks)
 [![GitHub watchers](https://img.shields.io/github/watchers/powerline-dev/codex-powerline-visualstudio?style=social)](https://github.com/powerline-dev/codex-powerline-visualstudio)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/powerline-dev/codex-powerline-visualstudio/blob/main/LICENSE)
 [![Visual Studio: 2022 / 2026](https://img.shields.io/badge/Visual_Studio-2022_%2F_2026-5C2D91)](https://visualstudio.microsoft.com/)
 [![Node.js: 22.12+](https://img.shields.io/badge/Node.js-22.12%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
@@ -49,17 +49,17 @@ codex login
 codex-powerline configure
 ```
 
-These npm commands apply after the scoped CLI package is published. Until then,
-use the [CLI development setup](https://github.com/powerline-dev/codex-powerline-cli/blob/main/docs/development.md).
 Make sure `node`, `codex`, and `codex-powerline` are on PATH. Restart Visual Studio
 after changes to Node.js or PATH.
 
-1. [Download the Visual Studio VSIX](releases/0.1.3/codex-powerline-visualstudio-0.1.3.vsix).
-2. Close Visual Studio, open the `.vsix` file, and select your Visual Studio instance.
-3. Start Visual Studio and open **View > Other Windows > Codex Powerline**.
+1. In **Extensions > Manage Extensions**, search for **Codex Powerline** by
+   **Powerline Dev** and select **Install**.
+2. Restart Visual Studio to complete the installation.
+3. Open **View > Other Windows > Codex Powerline**.
 
-The download link becomes available after the release folder is pushed to GitHub.
-The extension is not yet published to Marketplace.
+For manual installation, close Visual Studio, open the
+[Windows VSIX](https://github.com/powerline-dev/codex-powerline-visualstudio/raw/refs/heads/main/releases/0.1.3/codex-powerline-visualstudio-0.1.3.vsix),
+and select your Visual Studio instance.
 
 The terminal needs the [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
 If the tool window reports that it is missing, install the Evergreen Runtime
@@ -70,8 +70,10 @@ with `View.CodexPowerline` in the Command Window.
 
 **🔄 Update**
 
-Close Visual Studio and install the newer VSIX from the [release folders](releases/)
-over the existing extension. Restart Visual Studio. Update the shared CLI separately:
+Use **Extensions > Manage Extensions** to update Codex Powerline. If you
+installed from a VSIX, download the newer package from the
+[release folders](https://github.com/powerline-dev/codex-powerline-visualstudio/tree/main/releases).
+Update the shared CLI separately:
 
 ```powershell
 npm install --global @powerline-dev/codex-powerline-cli@latest
@@ -138,7 +140,7 @@ to start in the newly active project.
 ## 🤝 Contributing
 
 Contributions are welcome! Open an issue, suggest a feature, or send a focused
-pull request. See the [development guide](docs/development.md) for setup,
+pull request. See the [development guide](https://github.com/powerline-dev/codex-powerline-visualstudio/blob/main/docs/development.md) for setup,
 checks, and release preparation.
 
 ## Author and acknowledgments
@@ -147,8 +149,8 @@ checks, and release preparation.
 
 This extension uses [xterm.js](https://github.com/xtermjs/xterm.js),
 [node-pty](https://github.com/microsoft/node-pty), and Microsoft WebView2.
-See [NOTICE](NOTICE) for attribution.
+See [NOTICE](https://github.com/powerline-dev/codex-powerline-visualstudio/blob/main/NOTICE) for attribution.
 
 ## License
 
-MIT. See [LICENSE](LICENSE) for the terms and copyright notices.
+MIT. See [LICENSE](https://github.com/powerline-dev/codex-powerline-visualstudio/blob/main/LICENSE) for the terms and copyright notices.
