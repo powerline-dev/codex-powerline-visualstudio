@@ -71,11 +71,14 @@ open **Trusted Publishing** and create a policy with these values.
 | Workflow | `publish-marketplace.yml` |
 | Environment | `marketplace-release` |
 
-In GitHub Actions, run **Publish Visual Studio extension** on `main`.
-Leave `publish` unchecked to build and download the Windows x64 package from the
-run. Check `publish` to send the build to the Marketplace using Trusted Publishing.
-Bump the version in the project, VSIX manifest, and npm metadata before publishing
-an update.
+For an update, bump the version in the project, VSIX manifest, and npm metadata,
+then merge to `main`. GitHub Actions builds on each push to `main` and publishes
+a version when the push increases it and it is newer than the versions already
+on Marketplace.
+
+For a manual build or retry, run **Publish Visual Studio extension** on `main`.
+Leave `publish` unchecked to download the Windows x64 package from the run.
+Check `publish` to publish the current version if it is newer than the Marketplace version.
 
 See [Microsoft's Trusted Publishing setup](https://developer.microsoft.com/blog/trusted-publishing-visual-studio-marketplace/).
 

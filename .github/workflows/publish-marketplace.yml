@@ -1,6 +1,8 @@
 name: Publish Visual Studio extension
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       publish:
@@ -14,10 +16,14 @@ permissions:
 jobs:
   package:
     runs-on: windows-2022
+    outputs:
+      version: ${{ steps.build.outputs.version }}
+      publish: ${{ steps.build.outputs.publish }}
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
@@ -26,10 +32,23 @@ jobs:
       - name: Build and test the release VSIX
         id: build
         shell: pwsh
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          PUBLISH_REQUESTED: ${{ inputs.publish }}
         run: |
-          ./scripts/build.ps1 -Release
           $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $publish = $env:PUBLISH_REQUESTED -eq 'true'
+          if ($env:GITHUB_EVENT_NAME -eq 'push' -and $env:BEFORE_SHA -notmatch '^0+$') {
+            $previousPackage = git show "$($env:BEFORE_SHA):package.json"
+            if ($LASTEXITCODE -ne 0) { throw 'Could not read the version before this push.' }
+            $previousVersion = ($previousPackage | Out-String | ConvertFrom-Json).version
+            if (!$version -or !$previousVersion) { throw 'Missing extension version.' }
+            $publish = [version]$version -gt [version]$previousVersion
+          }
+          ./scripts/build.ps1 -Release
           "folder=releases/$version" >> $env:GITHUB_OUTPUT
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "publish=$($publish.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
       - uses: actions/upload-artifact@v7
         with:
           name: visual-studio-vsix
@@ -39,7 +58,7 @@ jobs:
           if-no-files-found: error
 
   publish:
-    if: inputs.publish && github.repository == 'powerline-dev/codex-powerline-visualstudio' && github.ref == 'refs/heads/main'
+    if: needs.package.outputs.publish == 'true' && github.repository == 'powerline-dev/codex-powerline-visualstudio' && github.ref == 'refs/heads/main'
     needs: package
     runs-on: windows-2025
     environment: marketplace-release
@@ -59,17 +78,6 @@ jobs:
           path: artifacts
       - name: Publish to Visual Studio Marketplace
         shell: pwsh
-        run: |
-          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
-          $publisher = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VSSDK -find 'VSSDK/VisualStudioIntegration/Tools/Bin/VsixPublisher.exe' | Select-Object -First 1
-          if (!$publisher) {
-            throw 'VsixPublisher.exe was not found on the runner.'
-          }
-          $packages = @(Get-ChildItem -LiteralPath artifacts -Filter '*.vsix' -File)
-          if ($packages.Count -ne 1) {
-            throw 'Expected exactly one Visual Studio VSIX.'
-          }
-          & $publisher publish -payload $packages[0].FullName -publishManifest (Resolve-Path vsix-publish.json).Path -oidc
-          if ($LASTEXITCODE -ne 0) {
-            exit $LASTEXITCODE
-          }
+        env:
+          RELEASE_VERSION: ${{ needs.package.outputs.version }}
+        run: ./scripts/publish-marketplace.ps1 -Version $env:RELEASE_VERSION
