@@ -1,0 +1,75 @@
+name: Publish Visual Studio extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the built VSIX package to Visual Studio Marketplace
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm ci
+      - name: Build and test the release VSIX
+        id: build
+        shell: pwsh
+        run: |
+          ./scripts/build.ps1 -Release
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          "folder=releases/$version" >> $env:GITHUB_OUTPUT
+      - uses: actions/upload-artifact@v7
+        with:
+          name: visual-studio-vsix
+          path: |
+            ${{ steps.build.outputs.folder }}/codex-powerline-visualstudio-*.vsix
+            ${{ steps.build.outputs.folder }}/SHA256SUMS.txt
+          if-no-files-found: error
+
+  publish:
+    if: inputs.publish && github.repository == 'powerline-dev/codex-powerline-visualstudio' && github.ref == 'refs/heads/main'
+    needs: package
+    runs-on: windows-2025
+    environment: marketplace-release
+    concurrency:
+      group: marketplace-publish
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          name: visual-studio-vsix
+          path: artifacts
+      - name: Publish to Visual Studio Marketplace
+        shell: pwsh
+        run: |
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $publisher = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VSSDK -find 'VSSDK/VisualStudioIntegration/Tools/Bin/VsixPublisher.exe' | Select-Object -First 1
+          if (!$publisher) {
+            throw 'VsixPublisher.exe was not found on the runner.'
+          }
+          $packages = @(Get-ChildItem -LiteralPath artifacts -Filter '*.vsix' -File)
+          if ($packages.Count -ne 1) {
+            throw 'Expected exactly one Visual Studio VSIX.'
+          }
+          & $publisher publish -payload $packages[0].FullName -publishManifest (Resolve-Path vsix-publish.json).Path -oidc
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }

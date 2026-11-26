@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/vsix-publish",
+  "categories": [
+    "coding"
+  ],
+  "identity": {
+    "internalName": "codex-powerline-visualstudio"
+  },
+  "overview": "README.md",
+  "priceCategory": "free",
+  "publisher": "powerline-dev",
+  "private": false,
+  "repo": "https://github.com/powerline-dev/codex-powerline-visualstudio",
+  "assetFiles": [
+    {
+      "pathOnDisk": "assets/header.png",
+      "targetPath": "assets/header.png"
+    },
+    {
+      "pathOnDisk": "assets/preview.png",
+      "targetPath": "assets/preview.png"
+    },
+    {
+      "pathOnDisk": "assets/platforms/cli.png",
+      "targetPath": "assets/platforms/cli.png"
+    },
+    {
+      "pathOnDisk": "assets/platforms/vscode.png",
+      "targetPath": "assets/platforms/vscode.png"
+    }
+  ]
+}
