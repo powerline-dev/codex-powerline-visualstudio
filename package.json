@@ -1,6 +1,6 @@
 {
   "name": "codex-powerline-visualstudio",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "description": "Terminal assets and native PTY host for the Visual Studio extension.",
   "license": "MIT",
