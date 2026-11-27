@@ -36,14 +36,39 @@ foreach ($extension in $gallery.results[0].extensions) {
     }
 }
 
-$vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
-$publisher = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VSSDK -find 'VSSDK/VisualStudioIntegration/Tools/Bin/VsixPublisher.exe' | Select-Object -First 1
-if (!$publisher) { throw 'VsixPublisher.exe was not found on the runner.' }
 $package = Get-Item -LiteralPath "artifacts/codex-powerline-visualstudio-$Version.vsix"
 
 if (!$env:ACTIONS_ID_TOKEN_REQUEST_URL -or !$env:ACTIONS_ID_TOKEN_REQUEST_TOKEN) {
     throw 'GitHub Actions did not supply an OIDC token request URL and credential.'
 }
+
+# Use an isolated publisher instead of the runner's Visual Studio installation.
+$buildToolsVersion = '18.12.1606'
+$publisherDirectory = Join-Path $env:RUNNER_TEMP "vssdk-publisher-$buildToolsVersion"
+$archivePath = "$publisherDirectory.zip"
+Invoke-WebRequest -TimeoutSec 120 -OutFile $archivePath -Uri (
+    "https://api.nuget.org/v3-flatcontainer/microsoft.vssdk.buildtools/$buildToolsVersion/microsoft.vssdk.buildtools.$buildToolsVersion.nupkg"
+)
+Expand-Archive -LiteralPath $archivePath -DestinationPath $publisherDirectory
+$publisher = Join-Path $publisherDirectory 'tools/VSSDK/bin/VsixPublisher.exe'
+
+# This BuildTools package ships MSAL 4.87, but the publisher references 4.85.2.
+$msalPath = Join-Path (Split-Path $publisher) 'lib/Microsoft.Identity.Client.dll'
+$msalVersion = [Reflection.AssemblyName]::GetAssemblyName($msalPath).Version
+$configPath = "$publisher.config"
+[xml]$config = Get-Content -LiteralPath $configPath -Raw
+$namespace = 'urn:schemas-microsoft-com:asm.v1'
+$binding = $config.SelectSingleNode("/configuration/runtime/*[local-name()='assemblyBinding' and namespace-uri()='$namespace']")
+$redirect = $config.CreateDocumentFragment()
+$redirect.InnerXml = @"
+<dependentAssembly xmlns="$namespace">
+    <assemblyIdentity name="Microsoft.Identity.Client" publicKeyToken="0a613f4dd989e8ae" culture="neutral" />
+    <bindingRedirect oldVersion="4.85.2.0" newVersion="$msalVersion" />
+</dependentAssembly>
+"@
+[void]$binding.AppendChild($redirect)
+$config.Save($configPath)
+
 $separator = if ($env:ACTIONS_ID_TOKEN_REQUEST_URL.Contains('?')) { '&' } else { '?' }
 $oidcUrl = "$($env:ACTIONS_ID_TOKEN_REQUEST_URL)${separator}audience=marketplace.visualstudio.com"
 $oidc = Invoke-RestMethod -Method Get -TimeoutSec 30 -Uri $oidcUrl `
@@ -51,7 +76,7 @@ $oidc = Invoke-RestMethod -Method Get -TimeoutSec 30 -Uri $oidcUrl `
 if (!$oidc.value) { throw 'GitHub Actions did not return an OIDC token.' }
 Write-Output "::add-mask::$($oidc.value)"
 
-# The runner's -oidc exchange omits the API version. See microsoft/vsmarketplace#2310.
+# Exchange the token explicitly to include the API version. See microsoft/vsmarketplace#2310.
 $exchange = Invoke-RestMethod -Method Post -TimeoutSec 30 `
     -Uri 'https://marketplace.visualstudio.com/_apis/gallery/token?api-version=7.2-preview.1' `
     -Headers @{
