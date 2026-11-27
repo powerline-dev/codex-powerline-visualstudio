@@ -2,7 +2,7 @@
 
 # ![Codex Powerline for Visual Studio](assets/header.png)
 
-**Your Codex terminal. Your Powerline layout. Inside Visual Studio.**
+**A Visual Studio extension that brings the OpenAI Codex CLI and its Powerline status bar to a dockable tool window.**
 
 Run Codex Powerline in a dockable Visual Studio tool window, with the same
 model, context, usage limits, Git widgets, themes, and saved layouts as the CLI.
